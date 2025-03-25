@@ -11,17 +11,17 @@ zig fetch --save git+https://github.com/Tired-Fox/zig-open#{commit,branch,tag}
 ```zig
 // build.zig
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.build) void {
   // ...
   const open = b.dependency("zig-open", .{}).module("open")
 
-  const exe_mod = b.createModule(.{
+  const exe_mod = b.createmodule(.{
       .root_source_file = b.path("src/main.zig"),
       .target = target,
       .optimize = optimize,
   });
 
-  exe_mode.addImport("open", open);
+  exe_mode.addimport("open", open);
 }
 ```
 

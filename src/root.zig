@@ -7,8 +7,6 @@ pub fn that(path: []const u8) !void {
     defer arena.deinit();
     const allo = arena.allocator();
 
-    std.debug.print("{s}\n", .{path});
-
     switch (@import("builtin").os.tag) {
         .windows => {
             const size = std.mem.replacementSize(u8, path, "&", "^&");
