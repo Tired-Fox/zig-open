@@ -41,11 +41,15 @@ pub fn that(path: []const u8) !void {
                 .{ "gnome-open", path },
                 .{ "kde-open", path },
             }) |args| {
-                _ = std.process.Child.run(.{
+                // Unwrap the error in comptime allowing the loop
+                //  to break on success and continue while there are errors
+                //
+                //  This also allows the loop to finish and fall through to
+                //  returning an error stating no launcher worked.
+                if (std.process.Child.run(.{
                     .allocator = allo,
                     .argv = &args
-                }) catch continue;
-                break;
+                })) |_| { break; } else |_| {}
             } else {
                 return error.NoWorkingLauncher;
             }
